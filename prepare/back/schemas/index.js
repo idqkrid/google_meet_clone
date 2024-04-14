@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 require("dotenv").config();
 
 const { MONGO_ID, MONGO_PASSWORD, NODE_ENV } = process.env;
-//const MONGO_URL = `mongodb://root:nodejsbook@localhost:27017/admin`;
 const MONGO_URL = `mongodb+srv://${MONGO_ID}:${MONGO_PASSWORD}@exampledb.qyaql5v.mongodb.net/`;
-//console.log(MONGO_URL);
 const connect = () => {
   if (NODE_ENV !== 'production') {
     mongoose.set('debug', true);
