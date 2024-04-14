@@ -26,6 +26,10 @@ app.use(
   })
 );
 
+app.get("/park", (req, res) => {
+  res.send("hello world");
+});
+
 app.use('/users', usersRouter);
 
 server = app.listen(3001, () => {
