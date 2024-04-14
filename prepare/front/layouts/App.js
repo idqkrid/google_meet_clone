@@ -2,11 +2,11 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import loadable from '@loadable/component';
 
-const LogIn = loadable(() => import('../pages/LogIn'));
-const SignUp = loadable(() => import('../pages/SignUp'));
-const LandingPage = loadable(() => import('../pages/LandingPage'));
-const HomePage = loadable(() => import('../pages/HomePage'));
-const CreateRoomPage = loadable(() => import('../pages/CreateRoomPage'));
+import LogIn from '../pages/Login';
+import SignUp from '../pages/SignUp';
+import LandingPage from '../pages/LandingPage';
+import HomePage from '../pages/HomePage';
+import CreateRoomPage from '../pages/CreateRoomPage';
 
 const App = () => {
   return (

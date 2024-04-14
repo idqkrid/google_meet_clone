@@ -60,7 +60,7 @@ const config = {
   devServer: {
     historyApiFallback: true,
     host: '13.125.251.86',
-    port: 80,
+    port: 3333,
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
   },
