@@ -7,57 +7,54 @@ import styled, { css } from 'styled-components';
 let roomName = '123';
 
 
-const socket = io("http://localhost:3004", {
-  transports: ["websocket"],
+const socket = io('http://13.125.251.86:3004', {
+  transports: ['websocket'],
 });
 
 const ChatSpaceComponents = () => {
-  const { data: userData, error, revalidate } = useSWR('http://localhost:3001/users', fetcher);
+  const { data: userData, error, revalidate } = useSWR('http://13.125.251.86:3001/users', fetcher);
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const fileInputRef = useRef(null);
 
-
   const onChangeInput = useCallback((e) => {
     setCurrentMessage(e.target.value);
-  })
+  });
 
-  socket.emit("join_room", roomName);
+  socket.emit('join_room', roomName);
 
   const sendMessage = async () => {
-    if (currentMessage != "") {
+    if (currentMessage != '') {
       const messageData = {
         room: roomName,
         author: userData?.name,
         message: currentMessage,
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+        time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes(),
       };
 
-      await socket.emit("send_message", messageData);
+      await socket.emit('send_message', messageData);
       setMessageList((list) => [...list, messageData]);
-      setCurrentMessage("");
+      setCurrentMessage('');
     }
-  }
+  };
 
   const sendMessageWithFile = async (file) => {
-
     if (file) {
       const messageData = {
         room: roomName,
         author: userData?.name,
         message: file, // 파일의 URL을 메시지로 전송
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes(),
+        time: new Date(Date.now()).getHours() + ':' + new Date(Date.now()).getMinutes(),
       };
-  
-      await socket.emit("send_message_img", messageData);
 
+      await socket.emit('send_message_img', messageData);
     }
   };
 
   const openFilePicker = () => {
     fileInputRef.current.click();
   };
-  
+
   // 파일 선택 시 sendMessageWithFile 함수 호출
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
@@ -65,16 +62,15 @@ const ChatSpaceComponents = () => {
   };
 
   useEffect(() => {
+    socket.on('receive_message', (data) => {
+      setMessageList((list) => [...list, data]);
+    });
 
-    socket.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data])
-    })
-
-    socket.on("receive_message_img", (data) => {
-      console.log('옴???')
-      setMessageList((list) => [...list, data])
-    })
-  }, [socket])
+    socket.on('receive_message_img', (data) => {
+      console.log('옴???');
+      setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
 
   const scrollRef = useRef();
 
@@ -94,21 +90,20 @@ const ChatSpaceComponents = () => {
         <ChatHeaderText>채팅 목록</ChatHeaderText>
       </ChatHeader>
       <ChatBody>
-      <MessageContainer>
+        <MessageContainer>
           {messageList.map((messageContent, index) => (
             <Message key={index}>
               <div>
                 <MessageContent>
-                  {messageContent?.img !== undefined
-                    ?
+                  {messageContent?.img !== undefined ? (
                     <>
                       <img src={`E:/코드/web_front/jwt/back/uploads/${messageContent.img}`}></img>
                     </>
-                    :
+                  ) : (
                     <>
                       <p>{messageContent.message}</p>
                     </>
-                  }
+                  )}
                 </MessageContent>
                 <MessageMeta>
                   <p>작성 시간:</p>
@@ -129,21 +124,16 @@ const ChatSpaceComponents = () => {
           placeholder="입력하세요"
           onChange={onChangeInput}
           onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-        }}
+            event.key === 'Enter' && sendMessage();
+          }}
         />
         <SendButton onClick={sendMessage}>▶</SendButton>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          onChange={handleFileInputChange}
-        />
+        <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileInputChange} />
         <button onClick={openFilePicker}>전송</button>
       </ChatFooter>
     </ChatWindow>
-  )
-}
+  );
+};
 
 const ChatWindow = styled.div`
   width: 300px;

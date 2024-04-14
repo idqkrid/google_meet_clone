@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 
 const LogIn = () => {
-  const { data: userData, error, revalidate } = useSWR('http://localhost:3001/users', fetcher);
+  const { data: userData, error, revalidate } = useSWR('http://13.125.251.86:3001/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -18,23 +18,24 @@ const LogIn = () => {
 
       setLogInError(false);
 
-        axios
-          .post(
-            'http://localhost:3001/users/login',
-            { email, password },
-            {
-              withCredentials: true,
-            },
-          )
-          .then(() => {
-            revalidate();
-            console.log('성공')
-          })
-          .catch((error) => {
-            //setLogInError(error.response?.data?.statusCode === 401);
-            console.log('실패')
-          });
-    },[email, password],
+      axios
+        .post(
+          'http://13.125.251.86:3001/users/login',
+          { email, password },
+          {
+            withCredentials: true,
+          },
+        )
+        .then(() => {
+          revalidate();
+          console.log('성공');
+        })
+        .catch((error) => {
+          //setLogInError(error.response?.data?.statusCode === 401);
+          console.log('실패');
+        });
+    },
+    [email, password],
   );
 
   console.log(error, userData);

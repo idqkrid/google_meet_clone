@@ -8,27 +8,24 @@ import axios from 'axios';
 
 
 const Header = () => {
-  const { data: userData, error: loginError, revalidate } = useSWR('http://localhost:3001/users', fetcher);
+  const { data: userData, error: loginError, revalidate } = useSWR('http://13.125.251.86:3001/users', fetcher);
 
   console.log(loginError);
 
   const onChnage = useCallback((e) => {
     e.preventDefault();
-    console.log('클릭!')
+    console.log('클릭!');
     axios
-      .get(
-        'http://localhost:3001/users/logout',
-        {
-          withCredentials: true,
-        },
-      )
+      .get('http://13.125.251.86:3001/users/logout', {
+        withCredentials: true,
+      })
       .then(() => {
         revalidate();
-        console.log('성공!')
+        console.log('성공!');
       })
       .catch((error) => {
         //setLogInError(error.response?.data?.statusCode === 401);
-        console.log('실패')
+        console.log('실패');
       });
   });
 

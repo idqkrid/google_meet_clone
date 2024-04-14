@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 
 const SignUp = () => {
-  const { data: userData } = useSWR('http://localhost:3001/users', fetcher);
+  const { data: userData } = useSWR('http://13.125.251.86:3001/users', fetcher);
   const [signUpError, setSignUpError] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [mismatchError, setMismatchError] = useState(false);
@@ -42,9 +42,8 @@ const SignUp = () => {
         setSignUpError(false);
         setSignUpSuccess(false);
 
-
         axios
-          .post('http://localhost:3001/users/regitsre', { name, email, password })
+          .post('http://13.125.251.86:3001/users/regitsre', { name, email, password })
           .then(() => {
             setSignUpSuccess(true);
           })
