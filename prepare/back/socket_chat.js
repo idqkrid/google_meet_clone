@@ -9,9 +9,9 @@ const path = require('path');
 const SocketChatConnect = () => {
   app.use(
     cors({
-      origin: ["http://localhost:3000"],
-      //origin: true,
-      credentials: true
+      //origin: ["http://13.125.251.86:3000"],
+      origin: true,
+      credentials: true,
     })
   );
 

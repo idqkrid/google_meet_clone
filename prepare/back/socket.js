@@ -8,8 +8,9 @@ const cors = require("cors");
 const SocketConnect = () => {
   app.use(
     cors({
-      origin: ["http://localhost:3000"],
-      credentials: true
+      //origin: ["http://13.125.251.86:3000"],
+      origin: true,
+      credentials: true,
     })
   );
   
